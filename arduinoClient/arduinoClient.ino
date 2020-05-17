@@ -1,10 +1,14 @@
+/* Basic communication between arduino (esp8266 board) and raspberry pi
+ * Author: Ivan Moreno
+ *	May 2020
+ */
 #include <ESP8266WiFi.h>
 #include <ESP8266WiFiMulti.h>
 
-const char* ssid     = "MYROOMWIFI";
-const char* password = "l0c@lw1f1p@s2";
+const char* ssid     = "rpi-hotspot";
+const char* password = "rasp-p@s2w0rd";
 
-const char* host = "192.168.10.11";
+const char* host = "192.168.7.1";
 const uint16_t port = 35000;
 
 ESP8266WiFiMulti WiFiMulti;
@@ -83,7 +87,7 @@ void loop() {
     }
   } 
 
-  Serial.println("Close connection...");
+  Serial.println("\nClose connection...");
   client.stop();
 
   Serial.println("Wait 5 sec...");

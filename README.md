@@ -1,5 +1,7 @@
 # Basic connection between arduino and raspberry pi through WiFi
 
+![test-hw](media/test-hw.jpg)
+
 ## The Hardware is
   - Esp8266 with arduino sdk
   - Raspberry pi 3b+
@@ -14,8 +16,7 @@
   - Enable ssh server
   - Upgrade system
   - Configure keys for ssh server
-  - Configure the raspberry pi as hotspot
-    - See https://www.raspberrypi.org/documentation/configuration/wireless/access-point-routed.md
+  - [Configure the raspberry pi as hotspot](https://www.raspberrypi.org/documentation/configuration/wireless/access-point-routed.md)
   - Install python3 and set as default python interpreter 
   - Copy server code
 
@@ -116,17 +117,17 @@ $ sudo reboot
 ```
 
 ## Setup hotspot
-```sh
+```
 Create an access point in raspberry pi
 
  Diagram                                  +- RPi ---------+
                                       +---+ 192.168.10.15 |          +- ESP8266 ---+
                                       |   |     WLAN AP   +-)))  (((-+ WLAN Client |
-                                      |   | 192.168.7.1   |          | 192.168.7.2 |
+                                      |   | 192.168.7.1   |          | 192.168.7.x |
                                       |   +---------------+          +-------------+
                                       .
                                       .
-             		                .
+           		              .
                  +- Router -----+     |
                  | Firewall     |     |   +- PC#2 --------+
 (Internet)---WAN-+ DHCP server  +-LAN-+---+ 192.168.10.11 |
@@ -241,12 +242,14 @@ Save and exit
 
 Reboot the system and check connection with new access point
 
-Install python3 and set as default interptreter
+Install python3 and set as default interpreter
 ```sh
 $ sudo apt install -y python3
 $ sudo rm /usr/bin/python
 $ sudo ln -s /usr/bin/python3 /usr/bin/python
 ```
+
+Copy pythonServer to raspberry pi
 
 # ESP8266 Configurations 
 
@@ -282,11 +285,47 @@ Install esp8266 boards
 $ arduino-cli --config-file ~/Arduino/arduino-cli.yml core install esp8266:esp8266
 ```
 
+Compile and upload the sketch, assuming that port of esp8266 is `/dev/ttyUSB0`
+```sh
+$ arduino-cli compile -b esp8266:esp8266:nodemcuv2 -u -p /dev/ttyUSB0 ~/WorkSpace/tutorials/rpi_WiFi-Hotspot/arduinoClient
+```
 
+# Test communications
 
+![testGift](media/testFunction.GIF)
 
+Init server in raspberry pi
+```sh
+$ python ~/pythonServer/server.py
+```
 
+Init serial monitor for esp8266
+```sh
+$ picocom -b 115200 /dev/ttyUSB0
+```
+## Raspberry pi output
+```
+  Intialize socket server, listen port: 35000
+  Connection from: ('192.168.7.17', 59552)
+  From connected user: Init connection from ESP8266
+  Write response -> hi from server
+  From connected user: hi from client
+  Write response -> send quit sequence
+  Recive disconnect from client
+  Close connection...
+```
 
-
-
+## Arduino output
+```
+  Wait for WiFi... .....
+  WiFi connected
+  IP address:
+  192.168.7.17
+  Connecting to 192.168.7.1:35000
+  Wait response from server ...
+  Server response: hi from server
+  You response -> hi from client
+  Server response: send quit sequence
+  You response -> quit!
+```
 
