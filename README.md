@@ -20,14 +20,14 @@
   - Install python3 and set as default python interpreter 
   - Copy server code
 
-## Configurations for ESP82666
+## Configurations for ESP8266
   - Install esp8266 for arduino
   - Copy the code and upload to esp8266 board 
 
 # Raspberry Pi Setup
 Download raspbian buster lite from official repository
 ```sh
-$ curl -sSL http://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2020-02-14/2020-02-13-raspbian-buster-lite.zip
+$ curl -LO http://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2020-02-14/2020-02-13-raspbian-buster-lite.zip
 ```
 
 Write to sd card
@@ -157,7 +157,7 @@ $ sudo vi /etc/dhcpcd.conf
 ```
 
 Add the following lines
-```sh
+```
   interface wlan0
     static ip_address=192.168.7.1/24
     nohook wpa_supplicant
@@ -171,7 +171,7 @@ $ sudo vi /etc/sysctl.conf
 ```
 
 Uncomment the following line
-```sh
+```
  net.ipv4.ip_forward=1
 ```
 Save and quit
@@ -198,7 +198,7 @@ $ sudo vi /etc/dnsmasq.conf
 ```
 
 Add the following lines
-```sh
+```
   interface=wlan0 
   dhcp-range=192.168.7.2,192.168.7.40,255.255.255.0,24h
   domain=wlan
@@ -223,7 +223,7 @@ $ sudo vi /etc/hostapd/hostapd.conf
 ```
 
 Add the following lines
-```sh
+```
   country_code=MX
   interface=wlan0
   ssid=rpi-hotspot
@@ -264,7 +264,7 @@ $ vim ~/Arduino/arduino-cli.yml
 ```
 
 Add the following lines
-```sh
+```
 # arduino-cli.yaml
 board_manager:
   additional_urls:
