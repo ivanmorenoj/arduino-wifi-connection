@@ -9,7 +9,7 @@
 ## System requirements
   - arduino-cli
   - picocom
-  - python 3
+  - python3
 
 ## Configurations for Raspberry Pi
   - Install raspbian
